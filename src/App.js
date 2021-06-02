@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useParams } from "react-router";
 import './App.css';
 import Calculator from './components/Calculator';
