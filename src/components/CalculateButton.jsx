@@ -26,22 +26,21 @@ const Result = styled.div`
     box-sizing: border-box;
 `;
 
-export default ({execute_function}) => {
+export default ({execute_function, children}) => {
+
     const [result, setResult] = useState("");
     const [showResult, setShowResult] = useState(false); 
     const [error, setError] = useState(""); 
 
     return <Wrapper>
         <Button onClick={() => {
-            execute_function().then(gotten_result => {
+            if(execute_function) execute_function().then(gotten_result => {
                 setResult(gotten_result);
                 setShowResult(true);
             }).catch((e) => {
                 setError(e);
             })
-            
-
-        }}>Calculate</Button>
+        }}>{children}</Button>
         <Result show={showResult}>{result}</Result>
     </Wrapper>
 }

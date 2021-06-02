@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
 
 
 const InputField = styled.div`
@@ -63,7 +67,8 @@ const TitleInput = styled.input`
     }
 `;
 
-export default ({input_name, onChange,selected, setSelected}) => {
+
+export default ({input_name, onChange,selected, setSelected, onBlur}) => {
     const [innerText, setInnerText] = useState("");
 
 
@@ -74,6 +79,8 @@ export default ({input_name, onChange,selected, setSelected}) => {
         >{input_name}</TitleInputText>
         <TitleInput
             onFocus={() => {setSelected()}}
+
+            onBlur={() => onBlur()}
             
             onChange={(input) => {
                 setInnerText(input.target.value);
@@ -83,4 +90,45 @@ export default ({input_name, onChange,selected, setSelected}) => {
             value={innerText}
         ></TitleInput>
     </InputField>
+}
+
+export const CodeField = ({initialValue, input_name, onChange, selected, setSelected, onBlur, paddingCode}) => {
+    const [innerText, setInnerText] = useState(initialValue || "");
+
+    return <InputField selected={selected}>
+    <TitleInputText
+        selected={selected}
+        hasData={true}
+    >{input_name}</TitleInputText>
+    <div style={{
+            fontFamily: '"Fira Mono", monospace',
+            fontSize: 12,
+            color:"#818181"
+        }}>
+        {paddingCode && <div style={{padding:`5px`}} dangerouslySetInnerHTML={{__html:highlight(paddingCode[0], languages.js)}} />}
+        <Editor
+            onFocus={() => {setSelected()}}
+            onBlur={() => onBlur()}
+            highlight={code => highlight(code, languages.js)}
+            padding={10}
+            
+            onValueChange={(code) => {
+                setInnerText(code);
+                onChange(code)
+            }}
+
+            style={{
+                fontFamily: '"Fira Mono", monospace',
+                fontSize: 12,
+                marginLeft:paddingCode?`1em` : ``,
+                boxSizing:`border-box`,
+                color:"black",
+                borderLeft:paddingCode?`1px solid #dddddd` : ``,
+            }}
+            
+            value={innerText}
+        ></Editor>
+        {paddingCode && <div style={{padding:`5px`}} dangerouslySetInnerHTML={{__html:highlight(paddingCode[1], languages.js)}} />}
+    </div>
+</InputField>;
 }
