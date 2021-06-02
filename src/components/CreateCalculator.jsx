@@ -66,7 +66,7 @@ resolve(result);`);
                     const title = encodeURIComponent(calculatorName);
                     const code_1 = encodeURIComponent(codeText)
 
-                    const relative_link = `/#/calculator?title=${title}&inputs=${inputs_array_string}&code=${code_1}`;
+                    const relative_link = `#/calculator?title=${title}&inputs=${inputs_array_string}&code=${code_1}`;
 
                     res(<a href={relative_link}>Generated link</a>)
                 })
